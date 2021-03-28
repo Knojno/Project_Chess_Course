@@ -13,11 +13,11 @@ namespace Chess.Board
         public int qteMovimentes { get; protected set; }
         public BoarD board { get; protected set; }
 
-        public Piece(Position position, Color color, BoarD board)
+        public Piece(BoarD board,Color color )
         {
-            this.position = position;
-            this.color = color;
+            this.position = null;        
             this.board = board;
+            this.color = color;
             this.qteMovimentes = 0;
         }
     }

@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Chess.Board
+namespace Chess.ChessGame
 {
-    enum Color
+    class Bishop
     {
-        White,
-        Black,
-        Yellow
     }
 }

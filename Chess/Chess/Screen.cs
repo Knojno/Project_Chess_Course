@@ -17,11 +17,11 @@ namespace Chess
                 {
                     if (board.piece(i, j) == null)
                     {
-                        Console.Write( " - " );
+                        Console.Write("["+"-"+"]" );
                     }
                     else
                     {
-                        Console.Write(board.piece(i,j)+"");
+                        Console.Write("["+board.piece(i,j)+"]");
                     }
                     
                 }
