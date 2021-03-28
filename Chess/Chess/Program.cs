@@ -1,12 +1,13 @@
 ﻿using System;
-
+using Chess.Board;
 namespace Chess
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            BoarD board = new BoarD(8, 8);
+
         }
     }
 }
