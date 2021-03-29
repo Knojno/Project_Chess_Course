@@ -10,7 +10,7 @@ namespace Chess.Board
     {
         public Position position { get; set; }
         public Color color { get; protected set; }
-        public int qteMovimentes { get; protected set; }
+        public int qteMoviments { get; protected set; }
         public BoarD board { get; protected set; }
 
         public Piece(BoarD board,Color color )
@@ -18,7 +18,12 @@ namespace Chess.Board
             this.position = null;        
             this.board = board;
             this.color = color;
-            this.qteMovimentes = 0;
+            this.qteMoviments = 0;
+        }
+
+        public void incrementMoviments()
+        {
+            qteMoviments++;
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Chess.Board;
+using Chess.ChessGame;
 
 namespace Chess
 {
@@ -31,6 +32,13 @@ namespace Chess
                 Console.WriteLine();
             }
             Console.WriteLine("   A  B  C  D  E  F  G  H ");
+        }
+        public static PositionChess readPositionChess()
+        {
+            string s = Console.ReadLine();
+            char column = s[0];
+            int line = int.Parse(s[1] + "");
+            return new PositionChess(column, line);
         }
 
         public static void printPiece(Piece piece)

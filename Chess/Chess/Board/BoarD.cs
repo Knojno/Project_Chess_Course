@@ -37,7 +37,7 @@ namespace Chess.Board
         
         
         
-        public void movePiece(Piece p, Position pos)
+        public void putPiece(Piece p, Position pos)
         {
             if (existPiece(pos))
             {
@@ -45,6 +45,18 @@ namespace Chess.Board
             }
             pieces[pos.Line, pos.Column] = p;
             p.position = pos;
+        }
+
+        public Piece removePiece(Position pos)
+        {
+            if (piece(pos) == null)
+            {
+                return null;
+            }
+            Piece aux = piece(pos);
+            aux.position = null;
+            pieces[pos.Line, pos.Column] = null;
+            return aux;
         }
 
         public bool positionValid(Position pos)
