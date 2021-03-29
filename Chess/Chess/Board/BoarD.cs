@@ -24,10 +24,47 @@ namespace Chess.Board
             return pieces[line, column];
         }
 
+        public Piece piece(Position pos)
+        {
+            return pieces[pos.Line, pos.Column];
+        }
+
+        public bool existPiece(Position pos)
+        {
+            validatePosition(pos);
+            return piece(pos) != null;
+        }
+        
+        
+        
         public void movePiece(Piece p, Position pos)
         {
+            if (existPiece(pos))
+            {
+                throw new BoardException("Already exist a Piece");
+            }
             pieces[pos.Line, pos.Column] = p;
             p.position = pos;
         }
+
+        public bool positionValid(Position pos)
+        {
+            if (pos.Line<0 || pos.Line>=Lines || pos.Column<0 || pos.Column >= Columns)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public void validatePosition(Position pos)
+        {
+            if (!positionValid(pos))
+            {
+                throw new BoardException("Position invalid");
+            }
+        }
+        
+
+        
     }
 }
