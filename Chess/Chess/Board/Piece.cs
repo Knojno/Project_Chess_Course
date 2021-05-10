@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Chess.Board
 {
-    class Piece
+  abstract  class Piece
     {
         public Position position { get; set; }
         public Color color { get; protected set; }
@@ -25,5 +25,10 @@ namespace Chess.Board
         {
             qteMoviments++;
         }
+
+        public abstract bool[,] possibleMoviments();
+        
+
+        
     }
 }
