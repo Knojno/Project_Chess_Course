@@ -15,28 +15,39 @@ namespace Chess
 
                 while (!match.Finishe)
                 {
-                    Console.Clear();
-                    
-                    Console.WriteLine("The White Pieces is the Green Pieces");
-                    Console.WriteLine("The Black Pieces is the Yellow Pieces");
-                    Console.WriteLine();
+                    try
+                    {
+                        Console.Clear();
 
-                    Screen.printBoard(match.board);
+                        Console.WriteLine("The White Pieces is the Green Pieces");
+                        Console.WriteLine("The Black Pieces is the Yellow Pieces");
+                        Console.WriteLine();
 
-                    Console.WriteLine();
-                    Console.Write("ORIGIN: ");
-                    Position origin = Screen.readPositionChess().toPosition();
+                        Screen.printBoard(match.board);
+                        Console.WriteLine();
+                        Console.Write(" TURN: " + match.Turn);
+                        Console.Write(" WAITING FOR MOVE " + match.Player);
+                        Console.WriteLine();
+                        Console.Write("ORIGIN: ");
+                        Position origin = Screen.readPositionChess().toPosition();
+                        match.validPositionOrigin(origin);
+                        bool[,] positionsPossibles = match.board.piece(origin).possibleMoviments();
 
-                    bool[,] positionsPossibles = match.board.piece(origin).possibleMoviments();
+                        Console.Clear();
+                        Screen.printBoard(match.board, positionsPossibles);
 
-                    Console.Clear();
-                    Screen.printBoard(match.board, positionsPossibles);
+                        Console.WriteLine();
+                        Console.Write("Destiny: ");
+                        Position destiny = Screen.readPositionChess().toPosition();
+                        match.validPositionDestiny(origin, destiny);
 
-                    Console.WriteLine();
-                    Console.Write("Destine: ");
-                    Position destine = Screen.readPositionChess().toPosition();
-
-                    match.executeMoviment(origin, destine);
+                        match.makeMove(origin, destiny);
+                    }
+                    catch(BoardException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        Console.ReadLine();
+                    }
                 }
                 
                 
