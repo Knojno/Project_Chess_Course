@@ -18,15 +18,18 @@ namespace Chess
                     try
                     {
                         Console.Clear();
+                        Screen.printMatch(match);
 
-                        Console.WriteLine("The White Pieces is the Green Pieces");
-                        Console.WriteLine("The Black Pieces is the Yellow Pieces");
-                        Console.WriteLine();
 
-                        Screen.printBoard(match.board);
-                        Console.WriteLine();
-                        Console.Write(" TURN: " + match.Turn);
-                        Console.Write(" WAITING FOR MOVE " + match.Player);
+
+
+
+
+
+
+
+
+
                         Console.WriteLine();
                         Console.Write("ORIGIN: ");
                         Position origin = Screen.readPositionChess().toPosition();
