@@ -22,7 +22,18 @@ namespace Chess
             printCapturedPieces(match);
             Console.WriteLine();
             Console.Write(" TURN: " + match.Turn);
-            Console.Write(" WAITING FOR MOVE " + match.Player);
+            if (!match.Finishe) { 
+            Console.WriteLine(" WAITING FOR MOVE " + match.Player);
+              if (match.Check)
+              {
+                Console.WriteLine("Check!");
+              }
+            }
+            else
+            {
+                Console.WriteLine("CHECKMATE");
+                Console.WriteLine("WINNER: " + match.Player);
+            }
         }
 
         public static void printCapturedPieces(ChessMatch match)

@@ -16,6 +16,7 @@ namespace Chess.ChessGame
         public bool Finishe { get;private set; }
         private HashSet<Piece> pieces;
         private HashSet<Piece> captured;
+        public bool Check { get; private set; }
 
         public ChessMatch()
         {
@@ -23,13 +24,14 @@ namespace Chess.ChessGame
             Turn = 1;
             Player = Color.White;
             Finishe = false;
+            Check = false;
             pieces = new HashSet<Piece>();
             captured = new HashSet<Piece>();
             putingPieces();
 
         }
 
-        public void executeMoviment(Position origin, Position destiny)
+        public Piece executeMoviment(Position origin, Position destiny)
         {
             Piece p = board.removePiece(origin);
             p.incrementMoviments();
@@ -39,13 +41,48 @@ namespace Chess.ChessGame
             {
                 captured.Add(pieceCaptured);
             }
+            return pieceCaptured;
+        }
+        public void UnmakeMoviment(Position origin, Position destiny, Piece pieceCaptured)
+        {
+            Piece p = board.removePiece(destiny);
+            p.decrementMoviments();
+            if (pieceCaptured != null)
+            {
+                board.putPiece(pieceCaptured, destiny);
+                captured.Remove(pieceCaptured);
+            }
+            board.putPiece(p, origin);
         }
 
         public void makeMove(Position origin, Position destiny)
         {
-            executeMoviment(origin, destiny);
-            Turn++;
-            changePlayer();
+            Piece pieceCaptured = executeMoviment(origin, destiny);
+            if (BeInCheck(Player))
+            {
+                UnmakeMoviment(origin, destiny, pieceCaptured);
+                throw new BoardException("You cant put yourself in check");
+            }
+
+            if (BeInCheck(adversary(Player)))
+            {
+                Check = true;
+            }
+            else
+            {
+                Check = false;
+            }
+            if (CheckMate(adversary(Player)))
+            {
+                Finishe = true;
+            }
+            else
+            {
+
+
+                Turn++;
+                changePlayer();
+            }
         }
 
         public void validPositionOrigin(Position position)
@@ -108,6 +145,77 @@ namespace Chess.ChessGame
             }
             aux.ExceptWith(piecesCaptured(color));
             return aux;
+        }
+        private Color adversary(Color color)
+        {
+            if(color == Color.White)
+            {
+                return Color.Black;
+            }
+            else
+            {
+                return Color.White;
+            }
+        }
+        private Piece king(Color color)
+        {
+            foreach(Piece x in piecesInGame(color))
+            {
+                if (x is King)
+                {
+                    return x;
+                }
+            }
+            return null;
+        }
+
+        public bool BeInCheck(Color color)
+        {
+            Piece K = king(color);
+            if (K == null)
+            {
+                throw new BoardException("There is no King of color " + color + " in the board");
+            }
+            foreach(Piece x in piecesInGame(adversary(color)))
+            {
+                bool[,] mat = x.possibleMoviments();
+                if (mat[K.position.Line, K.position.Column])
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool CheckMate(Color color)
+        {
+            if (!BeInCheck(color))
+            {
+                return false;
+            }
+            foreach(Piece x in piecesInGame(color))
+            {
+                bool[,] mat = x.possibleMoviments();
+                for (int i = 0; i<board.Lines; i++)
+                {
+                    for(int j = 0; j<board.Columns; j++)
+                    {
+                        if (mat[i, j])
+                        {
+                            Position origin = x.position;
+                            Position destiny = new Position(i, j);
+                            Piece piecesCaptured = executeMoviment(origin, destiny);
+                            bool testCheck = BeInCheck(color);
+                            UnmakeMoviment(origin, destiny, piecesCaptured);
+                            if (!testCheck)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
         }
             public void putNewPiece(char column, int line, Piece piece)
         {

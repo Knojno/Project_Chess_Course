@@ -52,12 +52,13 @@ namespace Chess
                         Console.ReadLine();
                     }
                 }
+
+
+
+                Console.Clear();
+                Screen.printMatch(match);
                 
-                
-                
-                
-                
-                Screen.printBoard(match.board);
+                //Screen.printBoard(match.board);
             }
             catch (BoardException e)
             {

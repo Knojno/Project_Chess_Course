@@ -25,6 +25,10 @@ namespace Chess.Board
         {
             qteMoviments++;
         }
+        public void decrementMoviments()
+        {
+            qteMoviments--;
+        }
 
         public bool havePossibleMoviment()
         {
