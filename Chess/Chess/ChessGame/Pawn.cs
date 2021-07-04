@@ -8,6 +8,7 @@ namespace Chess.ChessGame
 {
     class Pawn : Piece  
     {
+        private ChessMatch match;
         public Pawn (BoarD board, Color color) : base(board, color)
         {
             
@@ -52,6 +53,22 @@ namespace Chess.ChessGame
                 {
                     mat[pos.Line, pos.Column] = true;
                 }
+
+                // special move en passant
+                if (position.Line == 3)
+                {
+                    Position left = new Position(position.Line, position.Column - 1);
+                    if(board.positionValid(left)&&haveEnemy(left)&& board.piece(left) == match.EnPassant)
+                    {
+                        mat[left.Line - 1, left.Column] = true;
+                    }
+                    Position right = new Position(position.Line, position.Column + 1);
+                    if (board.positionValid(right) && haveEnemy(right) && board.piece(right) == match.EnPassant)
+                    {
+                        mat[right.Line - 1, right.Column] = true;
+                    }
+
+                }
             }
             else
             {
@@ -74,6 +91,21 @@ namespace Chess.ChessGame
                 if (board.positionValid(pos) && haveEnemy(pos))
                 {
                     mat[pos.Line, pos.Column] = true;
+                }
+                // special move en passant
+                if (position.Line == 4)
+                {
+                    Position left = new Position(position.Line, position.Column - 1);
+                    if (board.positionValid(left) && haveEnemy(left) && board.piece(left) == match.EnPassant)
+                    {
+                        mat[left.Line + 1, left.Column] = true;
+                    }
+                    Position right = new Position(position.Line, position.Column + 1);
+                    if (board.positionValid(right) && haveEnemy(right) && board.piece(right) == match.EnPassant)
+                    {
+                        mat[right.Line + 1, right.Column] = true;
+                    }
+
                 }
             }
 

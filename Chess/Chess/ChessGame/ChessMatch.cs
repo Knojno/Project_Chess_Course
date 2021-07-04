@@ -17,6 +17,7 @@ namespace Chess.ChessGame
         private HashSet<Piece> pieces;
         private HashSet<Piece> captured;
         public bool Check { get; private set; }
+        public Piece EnPassant { get; private set; }
 
         public ChessMatch()
         {
@@ -25,6 +26,7 @@ namespace Chess.ChessGame
             Player = Color.White;
             Finishe = false;
             Check = false;
+            EnPassant = null;
             pieces = new HashSet<Piece>();
             captured = new HashSet<Piece>();
             putingPieces();
@@ -41,6 +43,44 @@ namespace Chess.ChessGame
             {
                 captured.Add(pieceCaptured);
             }
+            //small Castle
+            if (p is King && destiny.Column == origin.Column + 2)
+            {
+                Position originT = new Position(origin.Line, origin.Column + 3);
+                Position destineT = new Position(origin.Line, origin.Column + 1);
+                Piece T = board.removePiece(originT);
+                T.incrementMoviments();
+                board.putPiece(T, destineT);
+            }
+            // big Castle
+            if (p is King && destiny.Column == origin.Column - 2)
+            {
+                Position originT = new Position(origin.Line, origin.Column - 4);
+                Position destineT = new Position(origin.Line, origin.Column -1);
+                Piece T = board.removePiece(originT);
+                T.incrementMoviments();
+                board.putPiece(T, destineT);
+            }
+
+            // En Passant
+            if (p is Pawn)
+            {
+                if (origin.Column != destiny.Column&&pieceCaptured == null)
+                {
+                    Position posP;
+                    if (p.color == Color.White)
+                    {
+                        posP = new Position(destiny.Line + 1, destiny.Column);
+                    }
+                    else
+                    {
+                        posP = new Position(destiny.Line - 1, destiny.Column);
+                    }
+                    pieceCaptured = board.removePiece(posP);
+                    captured.Add(pieceCaptured);
+                }
+            }
+
             return pieceCaptured;
         }
         public void UnmakeMoviment(Position origin, Position destiny, Piece pieceCaptured)
@@ -53,8 +93,44 @@ namespace Chess.ChessGame
                 captured.Remove(pieceCaptured);
             }
             board.putPiece(p, origin);
-        }
+            //small Castle
+            if (p is King && destiny.Column == origin.Column + 2)
+            {
+                Position originT = new Position(origin.Line, origin.Column + 3);
+                Position destineT = new Position(origin.Line, origin.Column + 1);
+                Piece T = board.removePiece(originT);
+                T.incrementMoviments();
+                board.putPiece(T, destineT);
+            }
+            // big Castle
+            if (p is King && destiny.Column == origin.Column - 2)
+            {
+                Position originT = new Position(origin.Line, origin.Column - 4);
+                Position destineT = new Position(origin.Line, origin.Column - 1);
+                Piece T = board.removePiece(originT);
+                T.incrementMoviments();
+                board.putPiece(T, destineT);
+            }
 
+            // En Passant
+            if (p is Pawn)
+            {
+                if (origin.Column != destiny.Column && pieceCaptured == EnPassant)
+                {
+                    Piece pawn = board.removePiece(destiny);
+                    Position posP;
+                    if (p.color == Color.White)
+                    {
+                        posP = new Position(3, destiny.Column);
+                    }
+                    else
+                    {
+                        posP = new Position(4, destiny.Column);
+                    }
+                    board.putPiece(pawn, posP);
+                }
+            }
+        }
         public void makeMove(Position origin, Position destiny)
         {
             Piece pieceCaptured = executeMoviment(origin, destiny);
@@ -62,6 +138,19 @@ namespace Chess.ChessGame
             {
                 UnmakeMoviment(origin, destiny, pieceCaptured);
                 throw new BoardException("You cant put yourself in check");
+            }
+            Piece p = board.piece(destiny);
+
+            //Promotion
+            if (p is Pawn)
+            {
+                if ((p.color == Color.White && destiny.Line == 0) || (p.color == Color.Black && destiny.Line == 7))
+                {
+                    p = board.removePiece(destiny);
+                    pieces.Remove(p);
+                    Piece queen = new Queen(board, p.color);
+                    pieces.Add(queen);
+                }
             }
 
             if (BeInCheck(adversary(Player)))
@@ -78,10 +167,17 @@ namespace Chess.ChessGame
             }
             else
             {
-
-
                 Turn++;
                 changePlayer();
+            }
+            // En Passant
+            if (p is Pawn && (destiny.Line == origin.Line -2 || destiny.Line == origin.Line + 2))
+            {
+                EnPassant = p;
+            }
+            else
+            {
+                EnPassant = null;
             }
         }
 
