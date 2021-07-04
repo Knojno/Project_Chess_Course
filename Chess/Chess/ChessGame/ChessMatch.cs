@@ -178,6 +178,7 @@ namespace Chess.ChessGame
             else
             {
                 EnPassant = null;
+
             }
         }
 
@@ -326,18 +327,18 @@ namespace Chess.ChessGame
             putNewPiece('b', 1, new Horse(board, Color.White));
             putNewPiece('c', 1, new Bishop(board, Color.White));
             putNewPiece('d', 1, new Queen(board, Color.White));
-            putNewPiece('e', 1, new King(board, Color.White));
+            putNewPiece('e', 1, new King(board, Color.White, this));
             putNewPiece('f', 1, new Bishop(board, Color.White));
             putNewPiece('g', 1, new Horse(board, Color.White));
             putNewPiece('h', 1, new Tower(board, Color.White));
-            putNewPiece('a', 2, new Pawn(board, Color.White));
-            putNewPiece('b', 2, new Pawn(board, Color.White));
-            putNewPiece('c', 2, new Pawn(board, Color.White));
-            putNewPiece('d', 2, new Pawn(board, Color.White));
-            putNewPiece('e', 2, new Pawn(board, Color.White));
-            putNewPiece('f', 2, new Pawn(board, Color.White));
-            putNewPiece('g', 2, new Pawn(board, Color.White));
-            putNewPiece('h', 2, new Pawn(board, Color.White));
+            putNewPiece('a', 2, new Pawn(board, Color.White, this));
+            putNewPiece('b', 2, new Pawn(board, Color.White, this));
+            putNewPiece('c', 2, new Pawn(board, Color.White, this));
+            putNewPiece('d', 2, new Pawn(board, Color.White, this));
+            putNewPiece('e', 2, new Pawn(board, Color.White, this));
+            putNewPiece('f', 2, new Pawn(board, Color.White, this));
+            putNewPiece('g', 2, new Pawn(board, Color.White, this));
+            putNewPiece('h', 2, new Pawn(board, Color.White, this));
 
 
             //BLACK PIECES
@@ -345,31 +346,21 @@ namespace Chess.ChessGame
             putNewPiece('b', 8, new Horse(board, Color.Black));
             putNewPiece('c', 8, new Bishop(board, Color.Black));
             putNewPiece('d', 8, new Queen(board, Color.Black));
-            putNewPiece('e', 8, new King(board, Color.Black));
+            putNewPiece('e', 8, new King(board, Color.Black, this));
             putNewPiece('f', 8, new Bishop(board, Color.Black));
             putNewPiece('g', 8, new Horse(board, Color.Black));
             putNewPiece('h', 8, new Tower(board, Color.Black));
-            putNewPiece('a', 7, new Pawn(board, Color.Black));
-            putNewPiece('b', 7, new Pawn(board, Color.Black));
-            putNewPiece('c', 7, new Pawn(board, Color.Black));
-            putNewPiece('d', 7, new Pawn(board, Color.Black));
-            putNewPiece('e', 7, new Pawn(board, Color.Black));
-            putNewPiece('f', 7, new Pawn(board, Color.Black));
-            putNewPiece('g', 7, new Pawn(board, Color.Black));
-            putNewPiece('h', 7, new Pawn(board, Color.Black));
+            putNewPiece('a', 7, new Pawn(board, Color.Black, this));
+            putNewPiece('b', 7, new Pawn(board, Color.Black, this));
+            putNewPiece('c', 7, new Pawn(board, Color.Black, this));
+            putNewPiece('d', 7, new Pawn(board, Color.Black, this));
+            putNewPiece('e', 7, new Pawn(board, Color.Black, this));
+            putNewPiece('f', 7, new Pawn(board, Color.Black, this));
+            putNewPiece('g', 7, new Pawn(board, Color.Black, this));
+            putNewPiece('h', 7, new Pawn(board, Color.Black, this));
         }
 
 
     }
 }
-          /*board.putPiece(new Tower(board, Color.Black), new PositionChess('a', 8).toPosition());
-            board.putPiece(new Tower(board, Color.Black), new PositionChess('h', 8).toPosition());
-            board.putPiece(new King(board, Color.Black), new PositionChess('e', 8).toPosition());
-            board.putPiece(new Tower(board, Color.White), new PositionChess('a', 1).toPosition());
-            board.putPiece(new Tower(board, Color.White), new PositionChess('h', 1).toPosition());
-            board.putPiece(new King(board, Color.White), new PositionChess('e', 1).toPosition());
-            board.putPiece(new Tower(board, Color.Black), new Position(0, 7));
-            board.putPiece(new King(board, Color.Black), new Position(0, 4));
-            board.putPiece(new Tower(board, Color.White), new Position(7, 0));
-            board.putPiece(new King(board, Color.White), new Position(7, 4));
-            board.putPiece(new Tower(board, Color.White), new Position(7, 7));*/
+          

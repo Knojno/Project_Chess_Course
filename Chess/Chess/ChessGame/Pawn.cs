@@ -9,9 +9,9 @@ namespace Chess.ChessGame
     class Pawn : Piece  
     {
         private ChessMatch match;
-        public Pawn (BoarD board, Color color) : base(board, color)
+        public Pawn (BoarD board, Color color, ChessMatch match) : base(board, color)
         {
-            
+            this.match = match;
         }
         public override string ToString()
         {
